@@ -1,0 +1,124 @@
+#include<iostream.h>
+#include<conio.h>
+#include<stdlib.h>
+#include<stdio.h>
+#include<string.h>
+#include<dos.h>
+#include<graphics.h>
+
+void main()
+{
+ int i,j,n,c,d,gd=DETECT,gm,R[5],L[5],x,y;
+ R[0]=1,R[1]=1,L[0]=1,L[1]=1;
+ char a,b,p1[10],p2[10];
+ initgraph(&gd,&gm,"c:\\TURBOC3\\BGI");
+ x=getmaxx();
+ y=getmaxy();
+ cleardevice();
+
+ settextstyle(7,0,6);
+ setcolor(6);
+ outtextxy(150,y/2-25,"CHOPSTICKS");
+ getch();
+ cout<<"Player 1: ";
+ gets(p1);
+ cout<<"\nPlayer 2: ";
+ gets(p2);
+
+ for(i=0;;i++)
+ {
+  settextstyle(2,0,6);
+  cleardevice();
+  setcolor(15);
+  cout<<"\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
+  if(i%2==0)
+  cout<<p1<<": ";
+  else
+  cout<<p2<<": ";
+
+  line(x/2,0,x/2,y);
+  line(0,y/2,x,y/2);
+  outtextxy(x/4,0,"1");
+  outtextxy(3*x/4,0,"2");
+  outtextxy(x/4,y/2, "1");
+  outtextxy(3*x/4,y/2,"2");
+
+  setcolor(12);
+  for(j=1;j<=R[0];j++)
+  {
+   n=x/2-j*25;
+   line(n,50,n,200);
+  }
+  for(j=1;j<=L[0];j++)
+  {
+   n=x/2+j*25;
+   line(n,50,n,200);
+  }
+  for(j=1;j<=R[1];j++)
+  {
+   n=x/2-j*25;
+   line(n,y-50,n,y-200);
+  }
+  for(j=1;j<=L[1];j++)
+  {
+   n=x/2+j*25;
+   line(n,y-50,n,y-200);
+  }
+
+  a=getch();
+  cout<<a;
+  b=getch();
+  cout<<" "<<b;
+
+  if(a=='1')
+  {
+   if(b=='1'&&R[(i+1)%2]!=0)
+   R[(i+1)%2]+=R[i%2];
+   if(b=='2'&&L[(i+1)%2]!=0)
+   L[(i+1)%2]+=R[i%2];
+  }
+  if(a=='2')
+  {
+
+   if(b=='1'&&R[(i+1)%2]!=0)
+   R[(i+1)%2]+=L[i%2];
+   if(b=='2'&&L[(i+1)%2]!=0)
+   L[(i+1)%2]+=L[i%2];
+  }
+  if(a=='d')
+  {
+   outtextxy(500,20,"Divide into?");
+   cout<<"\n";
+   cin>>c>>d;
+   cout<<"\r\r";
+   if(c+d!=R[i%2]+L[i%2])
+   outtextxy(5,30,"Sorry! Not Possible");
+   else
+   {
+    R[i%2]=c;
+    L[i%2]=d;
+   }
+  }
+
+  if(R[(i+1)%2]>=5)
+  R[(i+1)%2]-=5;
+  if(L[(i+1)%2]>=5)
+  L[(i+1)%2]-=5;
+
+  if(R[(i+1)%2]==0&&L[(i+1)%2]==0)
+  break;
+
+  delay(500);
+ }
+ cleardevice();
+ settextstyle(3,0,5);
+ outtextxy(10,50,"WINNER IS: ");
+ if(i%2==0)
+ outtextxy(x/2,y/2,p1);
+ else
+ outtextxy(x/2,y/2,p2);
+
+
+ getch();
+}
+
